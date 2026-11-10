@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HealthyBox – Repas sains et frais</title>
+<meta name="description" content="HealthyBox prépare des repas équilibrés avec des ingrédients frais. Commandez en quelques clics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --leaf:#2F6B3A; --leaf-d:#1F4A28; --lime:#E4F0C8; --cream:#FBFAF4; --ink:#1B2B1F; --muted:#5B6B5F; --line:#DCE5D3; --tomato:#D8452F;
+  --serif:'Fraunces',Georgia,serif; --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,6vw,3.6rem)}
+h2{font-size:clamp(1.7rem,4vw,2.3rem)}
+h3{font-size:1.2rem}
+section{padding:64px 0}
+.btn{display:inline-block;border:0;border-radius:999px;background:var(--leaf);color:#fff;font:700 1rem var(--sans);padding:13px 26px;cursor:pointer;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--leaf-d)}
+.btn.ghost{background:transparent;color:var(--leaf-d);border:2px solid var(--leaf)}
+.btn.ghost:hover{background:var(--lime)}
+
+header{position:sticky;top:0;z-index:20;background:rgba(251,250,244,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font:700 1.35rem var(--serif);text-decoration:none;color:var(--leaf-d)}
+nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+nav a{text-decoration:none;font-weight:500}
+nav a:hover{color:var(--leaf)}
+.cartbtn{position:relative;border:2px solid var(--leaf);background:#fff;color:var(--leaf-d);font:700 .95rem var(--sans);border-radius:999px;padding:8px 16px;cursor:pointer;text-decoration:none}
+.cartbtn span{display:inline-block;min-width:22px;padding:0 6px;margin-left:6px;border-radius:999px;background:var(--leaf);color:#fff;font-size:.82rem;text-align:center}
+@media(max-width:760px){nav{display:none}}
+
+.hero{padding:56px 0 40px}
+.hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:46ch}
+.hero img{border-radius:28px;aspect-ratio:4/3;object-fit:cover;width:100%}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+@media(max-width:820px){.hero .grid{grid-template-columns:1fr}}
+
+.about{background:var(--lime)}
+.about .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.about img{border-radius:28px;aspect-ratio:1;object-fit:cover;width:100%}
+.about p{max-width:56ch}
+@media(max-width:820px){.about .grid{grid-template-columns:1fr}}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:28px}
+.item{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.item img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.item .body{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.item p{margin:0;color:var(--muted)}
+.price{font:700 1.25rem var(--serif);color:var(--leaf-d)}
+.buy{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:12px}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.qty button{width:38px;height:38px;border:0;background:none;font-size:1.2rem;cursor:pointer;color:var(--leaf-d);border-radius:999px}
+.qty button:hover{background:var(--lime)}
+.qty output{min-width:28px;text-align:center;font-weight:700}
+
+.order{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.order .grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:820px){.order .grid{grid-template-columns:1fr}}
+.lines{list-style:none;margin:0 0 16px;padding:0}
+.lines li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.lines .rm{border:0;background:none;color:var(--tomato);cursor:pointer;font-weight:700;padding:4px 8px}
+.empty{color:var(--muted);padding:14px 0}
+.total{display:flex;justify-content:space-between;font:700 1.3rem var(--serif)}
+label{display:block;font-weight:700;margin:14px 0 6px}
+input,textarea{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--cream)}
+input:focus,textarea:focus{border-color:var(--leaf);outline:none}
+textarea{min-height:90px;resize:vertical}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:500;display:none}
+.msg.err{display:block;background:#FDE8E4;color:#8E2A1B}
+.msg.ok{display:block;background:var(--lime);color:var(--leaf-d)}
+form .btn{margin-top:18px;width:100%}
+.hint{font-size:.9rem;color:var(--muted);margin-top:10px}
+
+.posts details{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.posts summary{cursor:pointer;list-style:none;display:block}
+.posts summary::-webkit-details-marker{display:none}
+.posts img{aspect-ratio:16/10;object-fit:cover;width:100%}
+.posts .t{padding:16px 18px 6px}
+.posts .t p{margin:0;color:var(--muted)}
+.posts .more{display:inline-block;padding:0 18px 16px;font-weight:700;color:var(--leaf)}
+.posts details[open] .more{display:none}
+.posts .full{padding:0 18px 18px}
+.posts .full p{margin:0 0 .8em}
+
+.contact .grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+@media(max-width:820px){.contact .grid{grid-template-columns:1fr}}
+.contact img{border-radius:28px;aspect-ratio:4/3;object-fit:cover;width:100%}
+.contact .alt{margin-top:18px}
+
+footer{background:var(--leaf-d);color:#EAF3DA;padding:36px 0;text-align:center}
+footer .logo{color:#fff}
+footer p{margin:6px 0 0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#accueil">HealthyBox 🥗</a>
+    <nav aria-label="Navigation principale">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#apropos">À propos</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="cartbtn" href="#commande" aria-label="Voir ma commande">Ma commande<span id="count">0</span></a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="accueil">
+  <div class="wrap grid">
+    <div>
+      <h1>Mangez sain, vivez mieux</h1>
+      <p>Des repas savoureux préparés chaque jour avec des ingrédients frais et naturels.</p>
+      <div class="actions">
+        <a class="btn" href="#menu">Voir le menu</a>
+        <a class="btn ghost" href="#commande">Finaliser ma commande</a>
+      </div>
+    </div>
+    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=900" alt="Assiette de légumes frais et de céréales" width="900" height="675">
+  </div>
+</section>
+
+<section class="about" id="apropos">
+  <div class="wrap grid">
+    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800" alt="Bol de soupe et légumes de saison" width="800" height="800" loading="lazy">
+    <div>
+      <h2>Notre histoire</h2>
+      <p>Chez HealthyBox, nous croyons que bien manger est la clé d’une vie saine. Nous préparons des repas délicieux avec des ingrédients frais.</p>
+      <p>Notre objectif : vous proposer des repas équilibrés pour prendre soin de votre santé, sans compromis sur le goût.</p>
+      <a class="btn" href="#contact">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <h2>Notre menu</h2>
+    <p>Choisissez vos repas, puis envoyez votre commande en un message.</p>
+    <div class="cards" id="menuCards"></div>
+  </div>
+</section>
+
+<section class="order" id="commande">
+  <div class="wrap grid">
+    <div>
+      <h2>Ma commande</h2>
+      <ul class="lines" id="lines" aria-live="polite"></ul>
+      <div class="total"><span>Total</span><span id="total">0 DH</span></div>
+      <p class="hint">Le paiement et la livraison sont confirmés avec vous sur WhatsApp.</p>
+    </div>
+    <form id="orderForm" novalidate>
+      <h2>Vos coordonnées</h2>
+      <label for="nom">Nom</label>
+      <input id="nom" name="nom" autocomplete="name" required>
+      <label for="tel">Téléphone</label>
+      <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" required>
+      <label for="adresse">Adresse de livraison</label>
+      <input id="adresse" name="adresse" autocomplete="street-address" required>
+      <label for="note">Remarque (facultatif)</label>
+      <textarea id="note" name="note" placeholder="Allergies, étage, heure souhaitée…"></textarea>
+      <button class="btn" type="submit">Envoyer ma commande sur WhatsApp</button>
+      <div class="msg" id="orderMsg" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<section class="posts" id="blog">
+  <div class="wrap">
+    <h2>Notre blog</h2>
+    <div class="cards">
+      <details>
+        <summary>
+          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=700" alt="" loading="lazy">
+          <div class="t"><h3>Les bienfaits d’une alimentation saine</h3><p>L’importance de repas frais et équilibrés, chaque jour.</p></div>
+          <span class="more">Lire l’article</span>
+        </summary>
+        <div class="full"><p>Manger varié aide à garder de l’énergie toute la journée. Un repas équilibré associe des légumes, des protéines et des céréales complètes.</p><p>Privilégiez les produits de saison : ils sont plus savoureux et plus riches en nutriments.</p></div>
+      </details>
+      <details>
+        <summary>
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700" alt="" loading="lazy">
+          <div class="t"><h3>Des produits frais chaque jour</h3><p>Comment les légumes frais soutiennent un mode de vie sain.</p></div>
+          <span class="more">Lire l’article</span>
+        </summary>
+        <div class="full"><p>Les légumes fraîchement préparés conservent mieux leurs vitamines. Nous cuisinons chaque matin pour les livrer le jour même.</p></div>
+      </details>
+      <details>
+        <summary>
+          <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=700" alt="" loading="lazy">
+          <div class="t"><h3>Un mode de vie plus sain</h3><p>Des conseils simples pour améliorer votre nutrition au quotidien.</p></div>
+          <span class="more">Lire l’article</span>
+        </summary>
+        <div class="full"><p>Buvez de l’eau, prévoyez vos repas à l’avance et mangez lentement. De petits changements réguliers donnent les meilleurs résultats.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap grid">
+    <div>
+      <h2>Nous contacter</h2>
+      <p>Une question, une demande spéciale ? Écrivez-nous, nous répondons sur WhatsApp.</p>
+      <form id="contactForm" novalidate>
+        <label for="cnom">Nom</label>
+        <input id="cnom" autocomplete="name" required>
+        <label for="cmsg">Message</label>
+        <textarea id="cmsg" required></textarea>
+        <button class="btn" type="submit">Envoyer le message</button>
+        <div class="msg" id="contactMsg" role="status"></div>
+      </form>
+    </div>
+    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800" alt="Corbeille de fruits frais" width="800" height="600" loading="lazy">
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#accueil">HealthyBox 🥗</a>
+    <p>Mangez sain, vivez mieux.</p>
+    <p>© 2026 HealthyBox. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script>
+// ============ À MODIFIER : votre numéro WhatsApp, format international sans + ni espaces (ex. 212612345678) ============
+const WHATSAPP = "212XXXXXXXXX";
+// =====================================================================================================================
+
+const MENU = [
+  {id:"salade", nom:"Healthy Salad",  desc:"Légumes frais et avocat",    prix:45, img:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600", alt:"Salade fraîche à l’avocat"},
+  {id:"poulet", nom:"Chicken Box",    desc:"Poulet grillé et riz",        prix:55, img:"https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=600", alt:"Boîte de poulet grillé avec du riz"},
+  {id:"fruits", nom:"Fruit Box",      desc:"Fruits frais et naturels",    prix:35, img:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600", alt:"Boîte de fruits frais"}
+];
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem("hb_cart") || "{}"); } catch(e) { cart = {}; }
+const $ = s => document.querySelector(s);
+const pick = {}; // quantité choisie avant ajout
+
+function save(){ try{ localStorage.setItem("hb_cart", JSON.stringify(cart)); }catch(e){} }
+function total(){ return MENU.reduce((s,m)=> s + (cart[m.id]||0)*m.prix, 0); }
+
+function renderMenu(){
+  $("#menuCards").innerHTML = MENU.map(m => `
+    <article class="item">
+      <img src="${m.img}" alt="${m.alt}" width="600" height="450" loading="lazy">
+      <div class="body">
+        <h3>${m.nom}</h3><p>${m.desc}</p>
+        <div class="price">${m.prix} DH</div>
+        <div class="buy">
+          <div class="qty" role="group" aria-label="Quantité ${m.nom}">
+            <button type="button" data-dec="${m.id}" aria-label="Retirer une portion">−</button>
+            <output id="q-${m.id}">1</output>
+            <button type="button" data-inc="${m.id}" aria-label="Ajouter une portion">+</button>
+          </div>
+          <button class="btn" type="button" data-add="${m.id}">Ajouter</button>
+        </div>
+      </div>
+    </article>`).join("");
+  MENU.forEach(m => pick[m.id] = 1);
+}
+
+function renderCart(){
+  const items = MENU.filter(m => cart[m.id] > 0);
+  $("#lines").innerHTML = items.length
+    ? items.map(m => `<li><span>${cart[m.id]} × ${m.nom}</span><span>${cart[m.id]*m.prix} DH <button class="rm" type="button" data-rm="${m.id}" aria-label="Retirer ${m.nom}">Retirer</button></span></li>`).join("")
+    : `<li class="empty">Votre commande est vide. Ajoutez un repas depuis le menu.</li>`;
+  $("#total").textContent = total() + " DH";
+  $("#count").textContent = items.reduce((s,m)=> s + cart[m.id], 0);
+}
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.dataset.inc){ pick[t.dataset.inc]++; $("#q-"+t.dataset.inc).textContent = pick[t.dataset.inc]; }
+  if (t.dataset.dec){ pick[t.dataset.dec] = Math.max(1, pick[t.dataset.dec]-1); $("#q-"+t.dataset.dec).textContent = pick[t.dataset.dec]; }
+  if (t.dataset.add){
+    const id = t.dataset.add;
+    cart[id] = (cart[id]||0) + pick[id];
+    pick[id] = 1; $("#q-"+id).textContent = 1;
+    save(); renderCart();
+    const old = t.textContent; t.textContent = "Ajouté ✓"; setTimeout(()=> t.textContent = old, 1200);
+  }
+  if (t.dataset.rm){ delete cart[t.dataset.rm]; save(); renderCart(); }
+});
+
+function show(el, type, text){ el.className = "msg " + type; el.textContent = text; }
+function waReady(){ return /^\d{8,15}$/.test(WHATSAPP); }
+function openWhatsApp(text){
+  window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+}
+
+$("#orderForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const msg = $("#orderMsg");
+  const nom = $("#nom").value.trim(), tel = $("#tel").value.trim(), adr = $("#adresse").value.trim(), note = $("#note").value.trim();
+  if (total() === 0) return show(msg, "err", "Votre commande est vide. Ajoutez au moins un repas depuis le menu.");
+  if (!nom || !tel || !adr) return show(msg, "err", "Renseignez votre nom, votre téléphone et votre adresse.");
+  if (tel.replace(/\D/g,"").length < 8) return show(msg, "err", "Le numéro de téléphone semble incomplet.");
+  if (!waReady()) return show(msg, "err", "Le numéro WhatsApp du restaurant n’est pas configuré (variable WHATSAPP dans le code).");
+  const lignes = MENU.filter(m => cart[m.id] > 0).map(m => `• ${cart[m.id]} × ${m.nom} = ${cart[m.id]*m.prix} DH`).join("\n");
+  const texte = `Nouvelle commande HealthyBox 🥗\n\n${lignes}\n\nTotal : ${total()} DH\n\nNom : ${nom}\nTéléphone : ${tel}\nAdresse : ${adr}` + (note ? `\nRemarque : ${note}` : "");
+  openWhatsApp(texte);
+  show(msg, "ok", "WhatsApp s’ouvre avec votre commande. Appuyez sur « Envoyer » pour la transmettre.");
+});
+
+$("#contactForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const msg = $("#contactMsg");
+  const nom = $("#cnom").value.trim(), m = $("#cmsg").value.trim();
+  if (!nom || !m) return show(msg, "err", "Renseignez votre nom et votre message.");
+  if (!waReady()) return show(msg, "err", "Le numéro WhatsApp du restaurant n’est pas configuré (variable WHATSAPP dans le code).");
+  openWhatsApp(`Message depuis le site HealthyBox\n\nNom : ${nom}\n${m}`);
+  show(msg, "ok", "WhatsApp s’ouvre avec votre message. Appuyez sur « Envoyer » pour le transmettre.");
+});
+
+renderMenu(); renderCart();
+</script>
+</body>
+</html>
